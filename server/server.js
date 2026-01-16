@@ -7,7 +7,6 @@ import userRouter from "./routes/userRoutes.js";
 import messageRouter from "./routes/messageRoutes.js";
 import { Server } from "socket.io";
 
-const PORT = process.env.PORT || 5000;
 
 // create Express app and HTTP server
 const app = express();
@@ -52,6 +51,10 @@ app.use("/api/messages", messageRouter)
 
 await connectDB();
 
-server.listen(PORT, () => {
-    console.log("Server is running on PORT :", PORT);
-})
+if (process.env.NODE_ENV !== "production") {
+    const PORT = process.env.PORT || 5000;
+    server.listen(PORT, () => {
+        console.log("Server is running on PORT :", PORT);
+    })
+}
+export default server;
